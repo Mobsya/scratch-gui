@@ -1,7 +1,7 @@
 var GUI =
 webpackJsonpGUI([0],{
 
-/***/ 152:
+/***/ 160:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9,7 +9,7 @@ webpackJsonpGUI([0],{
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-__webpack_require__(153);
+__webpack_require__(161);
 
 var _react = __webpack_require__(0);
 
@@ -27,17 +27,17 @@ var _analytics = __webpack_require__(11);
 
 var _analytics2 = _interopRequireDefault(_analytics);
 
-var _gui = __webpack_require__(23);
+var _gui = __webpack_require__(25);
 
 var _gui2 = _interopRequireDefault(_gui);
 
-var _index = __webpack_require__(565);
+var _index = __webpack_require__(572);
 
 var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if ("production" === 'production' && (typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object') {
+if (false) {
     // Warn before navigating away
     window.onbeforeunload = function () {
         return true;
@@ -57,18 +57,18 @@ _reactDom2.default.render(_react2.default.createElement(_gui2.default, null), ap
 
 /***/ }),
 
-/***/ 153:
+/***/ 161:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(154).polyfill();
+__webpack_require__(162).polyfill();
 
 
 /***/ }),
 
-/***/ 154:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -122,11 +122,11 @@ module.exports = {
 
 /***/ }),
 
-/***/ 565:
+/***/ 572:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(566);
+var content = __webpack_require__(573);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -173,7 +173,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 566:
+/***/ 573:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -190,5 +190,5 @@ exports.locals = {
 
 /***/ })
 
-},[152]);
+},[160]);
 //# sourceMappingURL=gui.js.map

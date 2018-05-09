@@ -1,7 +1,7 @@
 var GUI =
 webpackJsonpGUI([1],{
 
-/***/ 571:
+/***/ 578:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21,17 +21,17 @@ var _box = __webpack_require__(7);
 
 var _box2 = _interopRequireDefault(_box);
 
-var _gui = __webpack_require__(23);
+var _gui = __webpack_require__(25);
 
 var _gui2 = _interopRequireDefault(_gui);
 
-var _player = __webpack_require__(572);
+var _player = __webpack_require__(579);
 
 var _player2 = _interopRequireDefault(_player);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if ("production" === 'production' && (typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object') {
+if (false) {
     // Warn before navigating away
     window.onbeforeunload = function () {
         return true;
@@ -56,11 +56,11 @@ _reactDom2.default.render(_react2.default.createElement(Player, null), appTarget
 
 /***/ }),
 
-/***/ 572:
+/***/ 579:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(573);
+var content = __webpack_require__(580);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -107,7 +107,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 573:
+/***/ 580:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -125,5 +125,5 @@ exports.locals = {
 
 /***/ })
 
-},[571]);
+},[578]);
 //# sourceMappingURL=player.js.map
