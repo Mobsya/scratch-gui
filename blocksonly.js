@@ -1,7 +1,7 @@
 var GUI =
 webpackJsonpGUI([2],{
 
-/***/ 574:
+/***/ 575:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33,7 +33,7 @@ var _projectLoaderHoc = __webpack_require__(43);
 
 var _projectLoaderHoc2 = _interopRequireDefault(_projectLoaderHoc);
 
-var _blocksOnly = __webpack_require__(575);
+var _blocksOnly = __webpack_require__(576);
 
 var _blocksOnly2 = _interopRequireDefault(_blocksOnly);
 
@@ -69,11 +69,11 @@ _reactDom2.default.render(_react2.default.createElement(App, null), appTarget);
 
 /***/ }),
 
-/***/ 575:
+/***/ 576:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(576);
+var content = __webpack_require__(577);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -120,7 +120,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 576:
+/***/ 577:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -137,5 +137,5 @@ exports.locals = {
 
 /***/ })
 
-},[574]);
+},[575]);
 //# sourceMappingURL=blocksonly.js.map
