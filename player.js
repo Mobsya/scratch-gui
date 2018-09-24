@@ -13,12 +13,12 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, ".player_stage-only_3WHZN {\n    width: calc(480px + 1rem);\n}\n\n.player_stage-only_3WHZN * {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n}\n", ""]);
+exports.push([module.i, ".player_stage-only_3sowo {\r\n    width: calc(480px + 1rem);\r\n}\r\n\r\n.player_stage-only_3sowo * {\r\n    -webkit-box-sizing: border-box;\r\n            box-sizing: border-box;\r\n}\r\n", ""]);
 
 // exports
 exports.locals = {
-	"stage-only": "player_stage-only_3WHZN",
-	"stageOnly": "player_stage-only_3WHZN"
+	"stage-only": "player_stage-only_3sowo",
+	"stageOnly": "player_stage-only_3sowo"
 };
 
 /***/ }),
