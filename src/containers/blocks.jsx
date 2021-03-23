@@ -14,9 +14,10 @@ import ExtensionLibrary from './extension-library.jsx';
 import extensionData from '../lib/libraries/extensions/index.jsx';
 import CustomProcedures from './custom-procedures.jsx';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
-import {STAGE_DISPLAY_SIZES} from '../lib/layout-constants';
+import {BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES} from '../lib/layout-constants';
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
+import defineDynamicBlock from '../lib/define-dynamic-block';
 
 import {connect} from 'react-redux';
 import {updateToolbox} from '../reducers/toolbox';
@@ -24,6 +25,7 @@ import {activateColorPicker} from '../reducers/color-picker';
 import {closeExtensionLibrary, openSoundRecorder, openConnectionModal} from '../reducers/modals';
 import {activateCustomProcedures, deactivateCustomProcedures} from '../reducers/custom-procedures';
 import {setConnectionModalExtensionId} from '../reducers/connection-modal';
+import {updateMetrics} from '../reducers/workspace-metrics';
 
 import {
     activateTab,
@@ -32,8 +34,8 @@ import {
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
-    object[property] = function () {
-        const result = oldFn.apply(this, arguments);
+    object[property] = function (...args) {
+        const result = oldFn.apply(this, args);
         callback.apply(this, result);
         return result;
     };
@@ -78,7 +80,6 @@ class Blocks extends React.Component {
         this.ScratchBlocks.recordSoundCallback = this.handleOpenSoundRecorder;
 
         this.state = {
-            workspaceMetrics: {},
             prompt: null
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
@@ -95,6 +96,21 @@ class Blocks extends React.Component {
             {rtl: this.props.isRtl, toolbox: this.props.toolboxXML}
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
+
+        // Register buttons under new callback keys for creating variables,
+        // lists, and procedures from extensions.
+
+        const toolboxWorkspace = this.workspace.getFlyout().getWorkspace();
+
+        const varListButtonCallback = type =>
+            (() => this.ScratchBlocks.Variables.createVariable(this.workspace, null, type));
+        const procButtonCallback = () => {
+            this.ScratchBlocks.Procedures.createProcedureDefCallback_(this.workspace);
+        };
+
+        toolboxWorkspace.registerButtonCallback('MAKE_A_VARIABLE', varListButtonCallback(''));
+        toolboxWorkspace.registerButtonCallback('MAKE_A_LIST', varListButtonCallback('list'));
+        toolboxWorkspace.registerButtonCallback('MAKE_A_PROCEDURE', procButtonCallback);
 
         // Store the xml of the toolbox that is actually rendered.
         // This is used in componentDidUpdate instead of prevProps, because
@@ -285,14 +301,17 @@ class Blocks extends React.Component {
     onWorkspaceMetricsChange () {
         const target = this.props.vm.editingTarget;
         if (target && target.id) {
-            const workspaceMetrics = Object.assign({}, this.state.workspaceMetrics, {
-                [target.id]: {
+            // Dispatch updateMetrics later, since onWorkspaceMetricsChange may be (very indirectly)
+            // called from a reducer, i.e. when you create a custom procedure.
+            // TODO: Is this a vehement hack?
+            setTimeout(() => {
+                this.props.updateMetrics({
+                    targetID: target.id,
                     scrollX: this.workspace.scrollX,
                     scrollY: this.workspace.scrollY,
                     scale: this.workspace.scale
-                }
-            });
-            this.setState({workspaceMetrics});
+                });
+            }, 0);
         }
     }
     onScriptGlowOn (data) {
@@ -322,11 +341,11 @@ class Blocks extends React.Component {
             const stageCostumes = stage.getCostumes();
             const targetCostumes = target.getCostumes();
             const targetSounds = target.getSounds();
-            const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML();
-            return makeToolboxXML(target.isStage, target.id, dynamicBlocksXML,
-                targetCostumes[0].name,
-                stageCostumes[0].name,
-                targetSounds.length > 0 ? targetSounds[0].name : ''
+            const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML(target);
+            return makeToolboxXML(false, target.isStage, target.id, dynamicBlocksXML,
+                targetCostumes[targetCostumes.length - 1].name,
+                stageCostumes[stageCostumes.length - 1].name,
+                targetSounds.length > 0 ? targetSounds[targetSounds.length - 1].name : ''
             );
         } catch {
             return null;
@@ -339,7 +358,7 @@ class Blocks extends React.Component {
             this.props.updateToolboxState(toolboxXML);
         }
 
-        if (this.props.vm.editingTarget && !this.state.workspaceMetrics[this.props.vm.editingTarget.id]) {
+        if (this.props.vm.editingTarget && !this.props.workspaceMetrics.targets[this.props.vm.editingTarget.id]) {
             this.onWorkspaceMetricsChange();
         }
 
@@ -365,8 +384,8 @@ class Blocks extends React.Component {
         }
         this.workspace.addChangeListener(this.props.vm.blockListener);
 
-        if (this.props.vm.editingTarget && this.state.workspaceMetrics[this.props.vm.editingTarget.id]) {
-            const {scrollX, scrollY, scale} = this.state.workspaceMetrics[this.props.vm.editingTarget.id];
+        if (this.props.vm.editingTarget && this.props.workspaceMetrics.targets[this.props.vm.editingTarget.id]) {
+            const {scrollX, scrollY, scale} = this.props.workspaceMetrics.targets[this.props.vm.editingTarget.id];
             this.workspace.scrollX = scrollX;
             this.workspace.scrollY = scrollY;
             this.workspace.scale = scale;
@@ -378,20 +397,50 @@ class Blocks extends React.Component {
         // workspace to be 'undone' here.
         this.workspace.clearUndo();
     }
-    handleExtensionAdded (blocksInfo) {
-        // select JSON from each block info object then reject the pseudo-blocks which don't have JSON, like separators
-        // this actually defines blocks and MUST run regardless of the UI state
-        this.ScratchBlocks.defineBlocksWithJsonArray(blocksInfo.map(blockInfo => blockInfo.json).filter(x => x));
+    handleExtensionAdded (categoryInfo) {
+        const defineBlocks = blockInfoArray => {
+            if (blockInfoArray && blockInfoArray.length > 0) {
+                const staticBlocksJson = [];
+                const dynamicBlocksInfo = [];
+                blockInfoArray.forEach(blockInfo => {
+                    if (blockInfo.info && blockInfo.info.isDynamic) {
+                        dynamicBlocksInfo.push(blockInfo);
+                    } else if (blockInfo.json) {
+                        staticBlocksJson.push(blockInfo.json);
+                    }
+                    // otherwise it's a non-block entry such as '---'
+                });
 
-        // Update the toolbox with new blocks
+                this.ScratchBlocks.defineBlocksWithJsonArray(staticBlocksJson);
+                dynamicBlocksInfo.forEach(blockInfo => {
+                    // This is creating the block factory / constructor -- NOT a specific instance of the block.
+                    // The factory should only know static info about the block: the category info and the opcode.
+                    // Anything else will be picked up from the XML attached to the block instance.
+                    const extendedOpcode = `${categoryInfo.id}_${blockInfo.info.opcode}`;
+                    const blockDefinition =
+                        defineDynamicBlock(this.ScratchBlocks, categoryInfo, blockInfo, extendedOpcode);
+                    this.ScratchBlocks.Blocks[extendedOpcode] = blockDefinition;
+                });
+            }
+        };
+
+        // scratch-blocks implements a menu or custom field as a special kind of block ("shadow" block)
+        // these actually define blocks and MUST run regardless of the UI state
+        defineBlocks(
+            Object.getOwnPropertyNames(categoryInfo.customFieldTypes)
+                .map(fieldTypeName => categoryInfo.customFieldTypes[fieldTypeName].scratchBlocksDefinition));
+        defineBlocks(categoryInfo.menus);
+        defineBlocks(categoryInfo.blocks);
+
+        // Update the toolbox with new blocks if possible
         const toolboxXML = this.getToolboxXML();
         if (toolboxXML) {
             this.props.updateToolboxState(toolboxXML);
         }
     }
-    handleBlocksInfoUpdate (blocksInfo) {
+    handleBlocksInfoUpdate (categoryInfo) {
         // @todo Later we should replace this to avoid all the warnings from redefining blocks.
-        this.handleExtensionAdded(blocksInfo);
+        this.handleExtensionAdded(categoryInfo);
     }
     handleCategorySelected (categoryId) {
         const extension = extensionData.find(ext => ext.extensionId === categoryId);
@@ -479,6 +528,8 @@ class Blocks extends React.Component {
             onRequestCloseExtensionLibrary,
             onRequestCloseCustomProcedures,
             toolboxXML,
+            updateMetrics: updateMetricsProp,
+            workspaceMetrics,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */
@@ -561,15 +612,19 @@ Blocks.propTypes = {
     }),
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
     toolboxXML: PropTypes.string,
+    updateMetrics: PropTypes.func,
     updateToolboxState: PropTypes.func,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    workspaceMetrics: PropTypes.shape({
+        targets: PropTypes.objectOf(PropTypes.object)
+    })
 };
 
 Blocks.defaultOptions = {
     zoom: {
         controls: true,
         wheel: true,
-        startScale: 0.675
+        startScale: BLOCKS_DEFAULT_SCALE
     },
     grid: {
         spacing: 40,
@@ -608,7 +663,8 @@ const mapStateToProps = state => ({
     locale: state.locales.locale,
     messages: state.locales.messages,
     toolboxXML: state.scratchGui.toolbox.toolboxXML,
-    customProceduresVisible: state.scratchGui.customProcedures.active
+    customProceduresVisible: state.scratchGui.customProcedures.active,
+    workspaceMetrics: state.scratchGui.workspaceMetrics
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -630,6 +686,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateToolboxState: toolboxXML => {
         dispatch(updateToolbox(toolboxXML));
+    },
+    updateMetrics: metrics => {
+        dispatch(updateMetrics(metrics));
     }
 });
 
