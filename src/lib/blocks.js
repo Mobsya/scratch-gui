@@ -213,6 +213,18 @@ export default function (vm) {
 
     ScratchBlocks.Blocks.sensing_of.init = function () {
         const blockId = this.id;
+        const blockType = this.type;
+
+        // Get the sensing_of block from vm.
+        let defaultSensingOfBlock;
+        const blocks = vm.runtime.flyoutBlocks._blocks;
+        Object.keys(blocks).forEach(id => {
+            const block = blocks[id];
+            if (id === blockType || (block && block.opcode === blockType)) {
+                defaultSensingOfBlock = block;
+            }
+        });
+
         // Function that fills in menu for the first input in the sensing block.
         // Called every time it opens since it depends on the values in the other block input.
         const menuFn = function () {
@@ -236,7 +248,7 @@ export default function (vm) {
 
                 // The block doesn't exist, but should be in the flyout. Look there.
                 if (!sensingOfBlock) {
-                    sensingOfBlock = vm.runtime.flyoutBlocks.getBlock(blockId);
+                    sensingOfBlock = vm.runtime.flyoutBlocks.getBlock(blockId) || defaultSensingOfBlock;
                     // If we still don't have a block, just return an empty list . This happens during
                     // scratch blocks construction.
                     if (!sensingOfBlock) {
@@ -246,10 +258,7 @@ export default function (vm) {
                     lookupBlocks = vm.runtime.flyoutBlocks;
                 }
                 const sort = function (options) {
-                    options.sort((str1, str2) => str1.localeCompare(str2, [], {
-                        sensitivity: 'base',
-                        numeric: true
-                    }));
+                    options.sort(ScratchBlocks.scratchBlocksUtils.compareStrings);
                 };
                 // Get all the stage variables (no lists) so we can add them to menu when the stage is selected.
                 const stageVariableOptions = vm.runtime.getTargetForStage().getAllVariableNamesInScopeByType('');
@@ -321,6 +330,27 @@ export default function (vm) {
 
     ScratchBlocks.FieldNote.playNote_ = function (noteNum, extensionId) {
         vm.runtime.emit('PLAY_NOTE', noteNum, extensionId);
+    };
+
+    // Use a collator's compare instead of localeCompare which internally
+    // creates a collator. Using this is a lot faster in browsers that create a
+    // collator for every localeCompare call.
+    const collator = new Intl.Collator([], {
+        sensitivity: 'base',
+        numeric: true
+    });
+    ScratchBlocks.scratchBlocksUtils.compareStrings = function (str1, str2) {
+        return collator.compare(str1, str2);
+    };
+
+    // Blocks wants to know if 3D CSS transforms are supported. The cross
+    // section of browsers Scratch supports and browsers that support 3D CSS
+    // transforms will make the return always true.
+    //
+    // Shortcutting to true lets us skip an expensive style recalculation when
+    // first loading the Scratch editor.
+    ScratchBlocks.utils.is3dSupported = function () {
+        return true;
     };
 
     return ScratchBlocks;
