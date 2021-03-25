@@ -29,5 +29,15 @@ export default (filename, blob) => {
         };
         reader.readAsDataURL(blob);
     }
+    
+    // Special use on Ipad ThymioSuite
+    if (/ipad/i.test(navigator.userAgent)) {
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+            var base64data = reader.result;
+            window.webkit.messageHandlers.blobReady.postMessage({data: base64data, filename: filename});
+        }
+    }
 
 };
