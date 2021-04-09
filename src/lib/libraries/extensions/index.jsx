@@ -46,7 +46,7 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
-import thymioIconForURL from './thymio.png';
+import thymioIconForURL from './thymio/thymio.png';
 
 
 export default [
