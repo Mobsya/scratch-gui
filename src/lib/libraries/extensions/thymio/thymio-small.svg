@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 80 80"
+   width="40"
+   height="40"
+   version="1.1"
+   sodipodi:docname="thymio-small.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata35">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Artboard 1</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1680"
+     inkscape:window-height="987"
+     id="namedview33"
+     showgrid="false"
+     inkscape:snap-page="true"
+     inkscape:zoom="9.3912619"
+     inkscape:cx="59.152618"
+     inkscape:cy="23.192778"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1" />
+  <defs
+     id="defs16">
+    <style
+       id="style2">.cls-1{fill:#bfbebe;}.cls-2{fill:url(#foo);}.cls-3{fill:url(#bar);}</style>
+    <linearGradient
+       id="foo"
+       x1="8"
+       y1="481.13"
+       x2="1017.41"
+       y2="481.13"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#e9e9e9"
+         id="stop4" />
+      <stop
+         offset="0.18"
+         stop-color="#e3e3e3"
+         id="stop6" />
+      <stop
+         offset="0.52"
+         stop-color="#dbdbdb"
+         id="stop8" />
+      <stop
+         offset="0.86"
+         stop-color="#e4e4e4"
+         id="stop10" />
+      <stop
+         offset="1"
+         stop-color="#e9e9e9"
+         id="stop12" />
+    </linearGradient>
+    <linearGradient
+       id="bar"
+       x1="97.139999"
+       y1="548.17999"
+       x2="492.23001"
+       y2="548.17999"
+       xlink:href="#foo" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#foo"
+       id="linearGradient868"
+       gradientUnits="userSpaceOnUse"
+       x1="8"
+       y1="481.13"
+       x2="1017.41"
+       y2="481.13" />
+  </defs>
+  <title
+     id="title18">Artboard 1</title>
+  <g
+     id="g866"
+     transform="matrix(0.07925422,0,0,0.07925422,-0.63403487,-1.0271359)">
+    <ellipse
+       class="cls-1"
+       cx="858.40997"
+       cy="694.33002"
+       rx="77.889999"
+       ry="70.669998"
+       id="ellipse20" />
+    <rect
+       class="cls-2"
+       x="8"
+       y="270.32999"
+       width="1009.41"
+       height="421.59"
+       rx="18.85"
+       ry="18.85"
+       id="rect22"
+       style="fill:url(#linearGradient868)" />
+    <circle
+       class="cls-3"
+       cx="294.67999"
+       cy="548.17999"
+       r="197.55"
+       id="circle24"
+       style="fill:url(#bar)" />
+    <path
+       d="M 294.68,765 C 175.13,765 77.86,667.73 77.86,548.18 c 0,-119.55 97.27,-216.82 216.82,-216.82 119.55,0 216.82,97.27 216.82,216.82 C 511.5,667.73 414.24,765 294.68,765 Z m 0,-395.09 c -98.3,0 -178.27,80 -178.27,178.27 0,98.27 80,178.27 178.27,178.27 98.27,0 178.32,-79.97 178.32,-178.27 0,-98.3 -80,-178.27 -178.32,-178.27 z"
+       id="path26" />
+    <rect
+       x="731.94"
+       y="438.97"
+       width="108.41"
+       height="53"
+       rx="5.6199999"
+       ry="5.6199999"
+       id="rect28" />
+    <path
+       d="M 1017.41,439 H 970 a 6.84,6.84 0 0 0 -6.83,6.82 v 39.35 A 6.85,6.85 0 0 0 970,492 h 47.37 z"
+       id="path30" />
+  </g>
+</svg>

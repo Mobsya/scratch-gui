@@ -46,8 +46,11 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
-import thymioIconForURL from './thymio/thymio.png';
-
+import thymioIconURL from './thymio/thymio.png';
+import thymioInsetIconURL from './thymio/thymio-small.svg';
+import thymioConnectionIconURL from './thymio/thymio-illustration.svg';
+import thymioConnectionSmallIconURL from './thymio/thymio-small.svg';
+import thymioConnectionTipIconURL from './thymio/thymio-illustration.svg';
 
 export default [
     {
@@ -172,12 +175,30 @@ export default [
     {
         name: 'Thymio',
         extensionId: 'thymio',
-        iconURL: thymioIconForURL,
+		collaborator: 'Mobsya Association',
+        iconURL: thymioIconURL,
+		insetIconURL: thymioInsetIconURL,
         description: (
             <FormattedMessage
-                defaultMessage="Connect Thymio Web Bridge, use Chrome please"
+                defaultMessage="Control Thymio mobile robot."
                 description="Description for the 'Thymio' extension"
                 id="gui.extension.thymio.description"
+            />
+        ),
+		featured: true,
+		disabled: false,
+        bluetoothRequired: false,
+        internetConnectionRequired: false,
+        launchPeripheralConnectionFlow: false,
+        useAutoScan: false,
+        connectionIconURL: thymioConnectionIconURL,
+        connectionSmallIconURL: thymioConnectionSmallIconURL,
+		connectionTipIconURL: thymioConnectionTipIconURL,
+        connectingMessage: (
+            <FormattedMessage
+                defaultMessage="Launch Thymio Suite and connect Thymio"
+                description="Message to help people connect to their Thymio."
+                id="gui.extension.thymio.connectingMessage"
             />
         ),
         helpLink: 'https://www.thymio.org'
