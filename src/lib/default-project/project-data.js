@@ -83,13 +83,13 @@ const projectData = translateFunction => {
                         rotationCenterY: 52
                     },
                     {
-                        assetId: '96e373703be9839f2232a7cf74b25d69',
+                        assetId: 'babf8fedfc6853ee77c933480b48185d',
                         name: 'Thymio top',
                         bitmapResolution: 1,
-                        md5ext: '96e373703be9839f2232a7cf74b25d69.svg',
+                        md5ext: 'babf8fedfc6853ee77c933480b48185d.svg',
                         dataFormat: 'svg',
-                        rotationCenterX: 26,
-                        rotationCenterY: 54
+                        rotationCenterX: 25,
+                        rotationCenterY: 53
                     }
                 ],
                 sounds: [

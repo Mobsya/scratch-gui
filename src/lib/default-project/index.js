@@ -12,7 +12,7 @@ import thymioWav6 from '!arraybuffer-loader!./d49c7c6603a543ec0570a4c73f0b384e.w
 import thymioWav7 from '!arraybuffer-loader!./ae2f6756c19008f0d108970de51e6591.wav';
 import backdrop from '!raw-loader!./cd21514d0531fdffb22204e0ec5ed84a.svg';
 import costume1 from '!raw-loader!./59e5095552f38004cc5aebd891c38671.svg';
-import costume2 from '!raw-loader!./96e373703be9839f2232a7cf74b25d69.svg';
+import costume2 from '!raw-loader!./babf8fedfc6853ee77c933480b48185d.svg';
 /* eslint-enable import/no-unresolved */
 
 const defaultProject = translator => {
@@ -87,7 +87,7 @@ const defaultProject = translator => {
         dataFormat: 'SVG',
         data: encoder.encode(costume1)
     }, {
-        id: '96e373703be9839f2232a7cf74b25d69',
+        id: 'babf8fedfc6853ee77c933480b48185d',
         assetType: 'ImageVector',
         dataFormat: 'SVG',
         data: encoder.encode(costume2)
