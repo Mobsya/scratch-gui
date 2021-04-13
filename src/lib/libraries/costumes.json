@@ -10314,34 +10314,6 @@
         "rotationCenterY": 63
     },
     {
-        "name": "Thymio side",
-        "tags": [
-            "robot",
-            "thymio",
-            "vehicle"
-        ],
-        "assetId": "59e5095552f38004cc5aebd891c38671",
-        "bitmapResolution": 1,
-        "md5ext": "59e5095552f38004cc5aebd891c38671.svg",
-        "dataFormat": "svg",
-        "rotationCenterX": 33,
-        "rotationCenterY": 52
-    },
-    {
-        "name": "Thymio top",
-        "tags": [
-            "robot",
-            "thymio",
-            "vehicle"
-        ],
-        "assetId": "babf8fedfc6853ee77c933480b48185d",
-        "bitmapResolution": 1,
-        "md5ext": "babf8fedfc6853ee77c933480b48185d.svg",
-        "dataFormat": "svg",
-        "rotationCenterX": 25,
-        "rotationCenterY": 53
-    },
-    {
         "name": "Toucan-a",
         "tags": [
             "animals",
