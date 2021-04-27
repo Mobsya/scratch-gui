@@ -1,7 +1,9 @@
 export default (filename, blob) => {
     const downloadLink = document.createElement('a');
     document.body.appendChild(downloadLink);
-
+	var FileSaver = require('file-saver');
+	saveAs(blob, filename);
+/*
     // Use special ms version if available to get it working on Edge.
     if (navigator.msSaveOrOpenBlob) {
         navigator.msSaveOrOpenBlob(blob, filename);
@@ -29,7 +31,8 @@ export default (filename, blob) => {
         };
         reader.readAsDataURL(blob);
     }
-    
+
+
     // Special use on Ipad ThymioSuite
     if (/ipad/i.test(navigator.userAgent)) {
         var reader = new FileReader();
@@ -39,5 +42,5 @@ export default (filename, blob) => {
             window.webkit.messageHandlers.blobReady.postMessage({data: base64data, filename: filename});
         }
     }
-
+*/
 };
